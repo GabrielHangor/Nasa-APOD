@@ -12,6 +12,20 @@ const apiURL = `https://api.nasa.gov/planetary/apod?api_key=${apirKey}&count=${c
 let resultsArray = [];
 let favorites = {};
 
+function showContent(page) {
+  window.scrollTo({ top: 0, behavior: "instant" });
+  
+  if (page === "results") {
+    resultsNav.classList.remove("hidden");
+    favoritesNav.classList.add("hidden");
+  } else {
+    resultsNav.classList.add("hidden");
+    favoritesNav.classList.remove("hidden");
+  }
+
+  loader.classList.add("hidden");
+}
+
 // Create card element and insert in into the DOM
 function createDOMNodes(page) {
   const currentArray =
@@ -77,18 +91,21 @@ function updateDOM(page) {
   if (localStorage.getItem("favorites")) {
     favorites = JSON.parse(localStorage.getItem("favorites"));
   }
-  imagesContainer.textContent = '';
+  imagesContainer.textContent = "";
   createDOMNodes(page);
+  showContent(page);
 }
 
 // Get 10 images from NASA API
 async function getNasaPictures() {
+  // Show Loader
+  loader.classList.remove("hidden");
   try {
     const response = await fetch(apiURL);
     resultsArray = await response.json();
     updateDOM("results");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -114,7 +131,7 @@ function removeFavorite(itemUrl) {
   }
 
   localStorage.setItem("favorites", JSON.stringify(favorites));
-  updateDOM('favorites');
+  updateDOM("favorites");
 }
 
 // On Load
