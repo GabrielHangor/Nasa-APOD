@@ -10,7 +10,9 @@ async function getNasaPictures() {
   try {
     const response = await fetch(apiURL);
     resultsArray = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    
+  }
 }
 
 // On Load
