@@ -13,8 +13,11 @@ let resultsArray = [];
 let favorites = {};
 
 // Create card element and insert in into the DOM
-function updateDOM() {
-  resultsArray.forEach((result) => {
+function createDOMNodes(page) {
+  const currentArray =
+    page === "results" ? resultsArray : Object.values(favorites);
+
+  currentArray.forEach((result) => {
     // Card container
     const card = document.createElement("div");
     card.classList.add("card");
@@ -64,13 +67,23 @@ function updateDOM() {
   });
 }
 
+function updateDOM(page) {
+  // Get favorites from local storage
+  if (localStorage.getItem("favorites")) {
+    favorites = JSON.parse(localStorage.getItem("favorites"));
+  }
+  createDOMNodes(page);
+}
+
 // Get 10 images from NASA API
 async function getNasaPictures() {
   try {
     const response = await fetch(apiURL);
     resultsArray = await response.json();
-    updateDOM();
-  } catch (error) {}
+    updateDOM("results");
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Add result to favorites object and to localstorage
