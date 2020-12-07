@@ -1,5 +1,5 @@
 const resultsNav = document.querySelector("#resultsNav");
-const favoritesNav = document.queryCommandEnabled("#favoritesNav");
+const favoritesNav = document.querySelector("#favoritesNav");
 const imagesContainer = document.querySelector(".images-container");
 const saveConfirmed = document.querySelector(".save-confirmed");
 const loader = document.querySelector(".loader");
